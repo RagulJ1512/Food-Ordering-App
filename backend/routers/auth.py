@@ -75,3 +75,10 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
 
 
     return {'access_token': token, 'token_type': 'bearer'}
+
+def check_user_admin(user):
+    if user.get("user_role")!=UserRole.ADMIN:
+        raise HTTPException(status_code=403,detail="Only ADMIN can perform this operation")
+def check_user_customer(user):
+    if user.get("user_role")!=UserRole.CUSTOMER:
+        raise HTTPException(status_code=403,detail="Only Customer can perform this operation")

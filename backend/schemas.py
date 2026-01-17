@@ -37,3 +37,9 @@ class Token(BaseModel):
 class UserVerification(BaseModel):
     password: str
     new_password: str = Field(min_length=6)
+
+class FoodRequest(BaseModel):
+    name:str
+    price:float
+    category:FoodCategory
+
