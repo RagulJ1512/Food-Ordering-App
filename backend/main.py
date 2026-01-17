@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import auth,users,fooditems
+from routers import auth,users,fooditems,orderfood
 
 import models
 from database import engine
@@ -31,3 +31,4 @@ models.Base.metadata.create_all(bind=engine)
 app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(fooditems.router)
+app.include_router(orderfood.router)

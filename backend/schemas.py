@@ -1,4 +1,5 @@
 import enum
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -43,3 +44,34 @@ class FoodRequest(BaseModel):
     price:float
     category:FoodCategory
 
+class OrderItems(BaseModel):
+    food_id:int
+    food_name:Optional[str]=None
+    qty:int
+    unit_price:Optional[float]=None
+    @property 
+    def total_price(self) -> float: 
+        if self.unit_price is None: 
+            return 0.0
+        return self.qty*self.unit_price
+
+class PlaceOrderRequest(BaseModel):
+    items:List[OrderItems]
+
+   
+
+class OrderDetail(BaseModel):
+
+    id:Optional[int]=None
+    user_id:Optional[int]=None
+    items:List[OrderItems]
+    status:Optional[OrderStatus]=OrderStatus.PLACED
+    total_price:Optional[float]=None
+    @property
+    def total_price(self) -> float: 
+        return sum(item.total_price for item in self.items)
+    
+class Order(BaseModel):
+    id:int
+    status:OrderStatus
+    total_price:float
