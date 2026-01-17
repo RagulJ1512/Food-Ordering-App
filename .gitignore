@@ -25,3 +25,4 @@ Thumbs.db
 .coverage
 htmlcov/
 .pytest_cache/
+setup.ps1
