@@ -1,0 +1,36 @@
+.order-card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.order-card h3 {
+  margin: 0 0 8px;
+  color: #F79A19;
+}
+
+.order-card details {
+  margin-top: 10px;
+}
+
+.admin-controls {
+  margin-top: 12px;
+}
+
+.admin-controls select {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.food-items {
+  font-style: none;
+}
+.food-items li{
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+}

@@ -1,0 +1,26 @@
+.cart-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.cart-list {
+  list-style: none;
+  padding: 0;
+}
+
+.checkout-btn {
+  margin-top: 20px;
+  padding: 10px;
+  background: #F79A19;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.checkout-btn:hover {
+  background: #F79A19;
+}

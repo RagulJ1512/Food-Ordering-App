@@ -1,0 +1,9 @@
+.orders-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+.error {
+  color: red;
+}

@@ -1,0 +1,14 @@
+.filter-form{
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.filter-form select{
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.filter-form option{
+    padding: 8px;
+    border: 1px solid #ccc;
+}

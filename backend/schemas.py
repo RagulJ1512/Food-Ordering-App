@@ -1,7 +1,7 @@
 import enum
 from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 class UserRole(enum.Enum):
     ADMIN = "ADMIN"
@@ -49,12 +49,12 @@ class OrderItems(BaseModel):
     food_name:Optional[str]=None
     qty:int
     unit_price:Optional[float]=None
-    @property 
-    def total_price(self) -> float: 
-        if self.unit_price is None: 
-            return 0.0
-        return self.qty*self.unit_price
-
+    total_price: Optional[float] = 0.0
+    @model_validator(mode="after")
+    def compute_total(cls, values):
+        values.total_price = (values.unit_price or 0) * (values.qty or 0) 
+        return values
+    
 class PlaceOrderRequest(BaseModel):
     items:List[OrderItems]
 
@@ -66,10 +66,11 @@ class OrderDetail(BaseModel):
     user_id:Optional[int]=None
     items:List[OrderItems]
     status:Optional[OrderStatus]=OrderStatus.PLACED
-    total_price:Optional[float]=None
-    @property
-    def total_price(self) -> float: 
-        return sum(item.total_price for item in self.items)
+    total_price:Optional[float]=0.0
+    @model_validator(mode="after") 
+    def compute_total(cls, values): 
+        values.total_price = sum(item.total_price for item in values.items) 
+        return values
     
 class Order(BaseModel):
     id:int
