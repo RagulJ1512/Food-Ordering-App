@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from typing import Annotated, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -19,14 +20,20 @@ user_dependency = Annotated[Session,Depends(get_current_user)]
 async def get_food_items(db:db_dependency,
                         #  user:user_dependency,
                          category_filter:Optional[FoodCategory]=None,
-                         availablity_filter:Optional[Availability]=None,):
+                         availablity_filter:Optional[Availability]=None,
+                         min_price: Optional[float]=None,
+                         max_price:Optional[float]=None):
     # if not user :
     #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    query =db.query(FoodItems)
+    query =db.query(FoodItems).filter(FoodItems.deleted==False)
     if category_filter != None :
         query=query.filter(FoodItems.category==category_filter)
     if availablity_filter != None:
         query=query.filter(FoodItems.is_available==availablity_filter)
+    if min_price is not None:
+        query=query.filter(FoodItems.price>=min_price)
+    if max_price is not None:
+        query=query.filter(FoodItems.price<=max_price)
     return query.all()
 
 @router.post("/")
@@ -46,7 +53,7 @@ async def update_food_item(db:db_dependency,
                            food_id:int,
                            food_request:FoodRequest):
     check_user_admin(user)
-    update_food=db.query(FoodItems).filter(FoodItems.id==food_id).first()
+    update_food=db.query(FoodItems).filter(FoodItems.deleted==False).filter(FoodItems.id==food_id).first()
     if not update_food:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Food Item Not Found")
     if food_request.name is not None:
@@ -55,6 +62,7 @@ async def update_food_item(db:db_dependency,
         update_food.category=FoodCategory(food_request.category)
     if food_request.price is not None:
         update_food.price = food_request.price
+    update_food.updated_at=datetime.now(timezone.utc)
     
     db.commit()
     db.refresh(update_food)
@@ -65,11 +73,13 @@ async def delete_food_item(db:db_dependency,
                            user:user_dependency,
                            food_id:int):
     check_user_admin(user)
-    food_item=db.query(FoodItems).filter(FoodItems.id==food_id).first()
+    food_item=db.query(FoodItems).filter(FoodItems.deleted==False).filter(FoodItems.id==food_id).first()
     if not food_item:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Food Not Found")
-    db.delete(food_item)
+    food_item.deleted=True
+    food_item.updated_at=datetime.now(timezone.utc)
     db.commit()
+    db.refresh(food_item)
 
 @router.patch("/")
 async def update_availablity_food_item(db:db_dependency,
@@ -77,10 +87,11 @@ async def update_availablity_food_item(db:db_dependency,
                                        food_id:int,
                                        availablity_request:Availability):
     check_user_admin(user)
-    food_item = db.query(FoodItems).filter(FoodItems.id==food_id).first()
+    food_item = db.query(FoodItems).filter(FoodItems.deleted==False).filter(FoodItems.id==food_id).first()
     if not food_item:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Food not found")
     food_item.is_available=availablity_request
+    food_item.updated_at=datetime.now(timezone.utc)
     db.commit()
     db.refresh(food_item)
     return food_item

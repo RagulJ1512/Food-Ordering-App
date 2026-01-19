@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from sqlalchemy.orm import Session
 from typing import Annotated, Optional
 from fastapi import APIRouter, Depends, HTTPException
@@ -118,6 +119,7 @@ async def update_order_status(db: db_dependency,
     if not order:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order Id not found")
     order.status = update_status
+    order.updated_at=datetime.now(timezone.utc)
     db.commit()
     db.refresh(order)
     return order
