@@ -1,52 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect, } from "react";
 import { placeOrder } from "../api/client";
 import CartItem from "../components/CartItem";
 import "./CartPage.css";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
-interface FoodItem {
-  id: number;
-  name: string;
-  price: number;
-  qty: number;
-  category: string;
-  availability: string;
-}
 
 export default function CartPage() {
-  const [cart, setCart] = useState<FoodItem[]>([]);
-
+  const {cart, setCart} = useCart();
+  const role = localStorage.getItem("role");
+  const navigate = useNavigate();
+  if (!role) {
+    navigate("/login");
+  }
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCart(storedCart);
   }, []);
 
-  function updateCart(newCart:FoodItem[]){
-    setCart(newCart);
-    localStorage.setItem("cart",JSON.stringify(newCart))
-  }
-  function removeItem(index:number){
+  function removeItem(index: number) {
     const newCart = [...cart];
-    newCart.splice(index,1);
-    updateCart(newCart)
+    newCart.splice(index, 1);
+    setCart(newCart);
   }
-  
-  function increaseQty(index:number){
-    const newCart =[...cart];
-    newCart[index].qty+= 1;
-    updateCart(newCart);
+
+  function increaseQty(index: number) {
+    const newCart = [...cart];
+    newCart[index].qty += 1;
+    setCart(newCart);
   }
-  function decreaseQty(index:number){
-    const newCart =[...cart];
-    newCart[index].qty-= 1;
-    updateCart(newCart);
+  function decreaseQty(index: number) {
+    const newCart = [...cart];
+    newCart[index].qty -= 1;
+    setCart(newCart);
   }
-  
+
   async function checkout() {
     try {
       const orderData = {
         items: cart.map((item) => ({
           food_id: item.id,
-          qty: item.qty, 
+          qty: item.qty,
         })),
       };
       await placeOrder(orderData);

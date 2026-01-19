@@ -6,8 +6,11 @@ import CartPage from "./pages/CartPage";
 import OrdersPage from "./pages/OrdersPage";
 import NavBar from "./components/NavBar";
 import AdminDashboard from "./pages/AdminDashboard";
+import "./index.css"
+import { CartProvider } from "./context/CartContext";
 export default function App() {
   return (
+    <CartProvider>
     <BrowserRouter>
     <NavBar/>
       <Routes>
@@ -18,8 +21,8 @@ export default function App() {
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/admin/orders" element={<OrdersPage/>} />
         <Route path="/admin" element={<AdminDashboard />} />
-
       </Routes>
     </BrowserRouter>
+    </CartProvider>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getOrders } from "../api/client";
 import OrderCard from "../components/OrderCard";
 import "./OrdersPage.css";
+import { useNavigate } from "react-router-dom";
 
 interface OrderItem {
   food_id: number;
@@ -21,6 +22,10 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const role = localStorage.getItem("role");
+  const navigate=useNavigate();
+  if (!role){
+   navigate( "/login");
+  }
   useEffect(() => {
     async function fetchOrders() {
       const data = await getOrders();

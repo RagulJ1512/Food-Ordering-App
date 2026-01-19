@@ -41,11 +41,13 @@ export async function getUser() {
 }
 
 
-export async function getFoodItems(category?: string, availability?: string) {
+export async function getFoodItems(category?: string, availability?: string,min_price?:number,max_price?:number) {
   const params: any = {};
   if (category) params.category_filter = category;
   if (availability) params.availablity_filter = availability;
-
+  if(min_price!=0) params.min_price=min_price;
+  if(max_price!=0) params.max_price=max_price;
+    
   const res = await api.get("/FoodItems/", { params });
   return res.data;
 }

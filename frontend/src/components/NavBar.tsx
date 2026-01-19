@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
+import { useCart } from "../context/CartContext";
 
 export default function NavBar() {
   const navigate = useNavigate();
-
+  const {cart}=useCart();
   const role = localStorage.getItem("role");
-  console.log(role);
   const username = localStorage.getItem("username");
 
   function handleLogout() {
@@ -32,7 +32,7 @@ export default function NavBar() {
         {role === "CUSTOMER" && (
           <>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/cart">Cart</Link></li>
+            <li><Link to="/cart">Cart <p className="badge">{cart.length}</p></Link></li>
             <li><Link to="/orders">Orders</Link></li>
           </>
         )}
@@ -44,7 +44,7 @@ export default function NavBar() {
             <li><Link to="/register">Register User</Link></li>
           </>
         )}
-        <li><button onClick={handleLogout} className="logout-btn">Logout</button></li>
+        {username&&<li><b> {username}</b><button onClick={handleLogout} className="logout-btn">Logout</button></li>}
       </ul>
     </nav>
   );

@@ -1,4 +1,3 @@
-import React from "react";
 import { updateOrderStatus } from "../api/client";
 import "./OrderCard.css";
 
@@ -50,7 +49,7 @@ export default function OrderCard({ id, status, total_price, items, role = "CUST
           <select onChange={(e) => handleStatusChange(e.target.value)} defaultValue={status}>
             <option value="" disabled>Select status</option>
             <option value="PLACED">Placed</option>
-            <option value="PROCESSING">Processing</option>
+            <option value="PREPARING">Preparing</option>
             <option value="DELIVERED">Delivered</option>
           </select>
         </div>

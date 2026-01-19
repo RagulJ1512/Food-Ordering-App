@@ -38,3 +38,10 @@
   text-decoration: underline;
   background: #e2bc869a;
 }
+.badge{
+  display: inline;
+  background: #d47202;
+  padding: 2px 5px 2px 5px;
+  border-radius: 15px;
+  font-weight: bold;
+}
