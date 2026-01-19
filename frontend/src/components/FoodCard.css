@@ -23,3 +23,9 @@
 .food-card button:hover{
     background: #e2bc869a;
 }
+.disabled{
+    color: #6a6a6a;
+}
+.disabled button{
+    background: #6a6a6a;
+}

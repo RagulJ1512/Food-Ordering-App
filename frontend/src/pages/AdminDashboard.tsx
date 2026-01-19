@@ -112,6 +112,7 @@ export default function AdminDashboard() {
           <option value="DRINK">Drink</option>
         </select>
         <button onClick={handleAddFood}>Add Food</button>
+        <p className="error">{error}</p>
       </div>
 
       <h3>Food Items</h3>

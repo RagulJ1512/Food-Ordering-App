@@ -10,15 +10,15 @@ interface FoodCardProps{
 }
 
 function FoodCard( {name,price,category,availability,onAddToCart}:FoodCardProps){
- 
+    const isUnavailable = availability === "UNAVAILABLE";
     return(
         
-        <div className="food-card">
+        <div className={`food-card ${isUnavailable ? "disabled" : ""}`}>
             <h3>{name}</h3>
             <p>${price}</p>
             <p>Category:{category}</p>
             <p>Status:{availability}</p>
-            <button onClick={onAddToCart}>Add to Cart</button>
+            <button onClick={onAddToCart} disabled={isUnavailable}>{isUnavailable ? "Out of Stock" : "Add to Cart"}</button>
         </div>
     );
 

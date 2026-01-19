@@ -13,10 +13,12 @@ interface CartItemProps {
 export default function CartItem({ name, price, qty,onRemove,onIncrease,onDecrease }: CartItemProps) {
   return (
     <li className="cart-item">
-      <span>{name} - ₹{price}x{qty} = ₹{price * qty}</span>
+      <span>{name} - ₹{price} </span>
       <div className="cart-action">
         <button onClick={onDecrease} disabled={qty<=1}>-</button>
+        <span>{qty}</span>
         <button onClick={onIncrease}>+</button>
+        <span>= ₹{price * qty}</span>
         <button onClick={onRemove}>Remove</button>
       </div>
     </li>
