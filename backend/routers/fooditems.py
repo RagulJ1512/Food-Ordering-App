@@ -1,5 +1,6 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Annotated, Optional
+from zoneinfo import ZoneInfo
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette import status
@@ -62,7 +63,7 @@ async def update_food_item(db:db_dependency,
         update_food.category=FoodCategory(food_request.category)
     if food_request.price is not None:
         update_food.price = food_request.price
-    update_food.updated_at=datetime.now(timezone.utc)
+    update_food.updated_at=datetime.now(ZoneInfo("Asia/Kolkata"))
     
     db.commit()
     db.refresh(update_food)
@@ -77,7 +78,7 @@ async def delete_food_item(db:db_dependency,
     if not food_item:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Food Not Found")
     food_item.deleted=True
-    food_item.updated_at=datetime.now(timezone.utc)
+    food_item.updated_at=datetime.now(ZoneInfo("Asia/Kolkata"))
     db.commit()
     db.refresh(food_item)
 
@@ -91,7 +92,7 @@ async def update_availablity_food_item(db:db_dependency,
     if not food_item:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Food not found")
     food_item.is_available=availablity_request
-    food_item.updated_at=datetime.now(timezone.utc)
+    food_item.updated_at=datetime.now(ZoneInfo("Asia/Kolkata"))
     db.commit()
     db.refresh(food_item)
     return food_item

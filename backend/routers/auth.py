@@ -1,6 +1,7 @@
-from datetime import timedelta, datetime, timezone
+from datetime import timedelta, datetime
 
 from typing import Annotated
+from zoneinfo import ZoneInfo
 from fastapi import APIRouter, Depends, HTTPException
 from dotenv import load_dotenv
 import os
@@ -41,7 +42,7 @@ def authenticate_user(username: str, password: str, db):
 
 def create_access_token(username: str, user_id: int, role: str, expires_delta: timedelta):
     encode = {'sub': username, 'id': user_id, 'role': role}
-    expires = datetime.now(timezone.utc) + expires_delta
+    expires = datetime.now(ZoneInfo("Asia/Kolkata")) + expires_delta
     encode.update({'exp': expires})
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
 

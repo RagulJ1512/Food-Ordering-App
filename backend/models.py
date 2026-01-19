@@ -1,4 +1,5 @@
-from datetime import datetime, timezone
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from sqlalchemy import Column, DateTime, Integer, Float, ForeignKey, Enum as SqlEnum, String,Boolean
 from sqlalchemy.orm import relationship
 from schemas import Availability, FoodCategory, OrderStatus, UserRole
@@ -14,7 +15,7 @@ class Users(Base):
     last_name = Column(String, nullable=True)
     hashed_password = Column(String, nullable=False)
     role = Column(SqlEnum(UserRole), default=UserRole.CUSTOMER, nullable=False)
-    created_at=Column(DateTime,default=datetime.now(timezone.utc))
+    created_at=Column(DateTime,default=datetime.now(ZoneInfo("Asia/Kolkata")))
 
     orders = relationship("Orders", back_populates="user")
 
@@ -27,8 +28,8 @@ class FoodItems(Base):
     price = Column(Float, nullable=False)
     category = Column(SqlEnum(FoodCategory), nullable=False)
     is_available = Column(SqlEnum(Availability), default=Availability.AVAILABLE, nullable=False)
-    created_at=Column(DateTime,default=datetime.now(timezone.utc))
-    updated_at=Column(DateTime,default=datetime.now(timezone.utc))
+    created_at=Column(DateTime,default=datetime.now(ZoneInfo("Asia/Kolkata")))
+    updated_at=Column(DateTime,default=datetime.now(ZoneInfo("Asia/Kolkata")))
     order_items = relationship("OrderItems", back_populates="food_item")
     deleted=Column(Boolean,default=False)
 
@@ -40,8 +41,8 @@ class Orders(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     total_price = Column(Float, nullable=False)
     status = Column(SqlEnum(OrderStatus), default=OrderStatus.PLACED, nullable=False)
-    created_at=Column(DateTime,default=datetime.now(timezone.utc))
-    updated_at=Column(DateTime,default=datetime.now(timezone.utc))
+    created_at=Column(DateTime,default=datetime.now(ZoneInfo("Asia/Kolkata")))
+    updated_at=Column(DateTime,default=datetime.now(ZoneInfo("Asia/Kolkata")))
   
     user = relationship("Users", back_populates="orders")
     items = relationship("OrderItems", back_populates="order", cascade="all, delete-orphan")
