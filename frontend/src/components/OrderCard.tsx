@@ -16,7 +16,8 @@ interface OrderCardProps {
   role?: string; 
 }
 
-export default function OrderCard({ id, status, total_price, items, role = "CUSTOMER" }: OrderCardProps) {
+export default function OrderCard({ id, status, total_price, items}: OrderCardProps) {
+  const role = localStorage.getItem('role');
   async function handleStatusChange(newStatus: string) {
     try {
       await updateOrderStatus(id, newStatus);

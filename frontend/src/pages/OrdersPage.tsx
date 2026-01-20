@@ -48,7 +48,6 @@ export default function OrdersPage() {
           status={order.status}
           total_price={order.total_price}
           items={order.items}
-          role={role}
         />
       ))}
     </div>

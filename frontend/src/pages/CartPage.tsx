@@ -1,4 +1,4 @@
-import { useEffect, } from "react";
+import { useEffect, useState, } from "react";
 import { placeOrder } from "../api/client";
 import CartItem from "../components/CartItem";
 import "./CartPage.css";
@@ -31,8 +31,14 @@ export default function CartPage() {
   }
   function decreaseQty(index: number) {
     const newCart = [...cart];
-    newCart[index].qty -= 1;
-    setCart(newCart);
+    if (newCart[index].qty<=1){
+      removeItem(index);
+    }else{
+      newCart[index].qty -= 1;
+      setCart(newCart);
+
+    }
+  
   }
 
   async function checkout() {
@@ -51,7 +57,7 @@ export default function CartPage() {
       alert("Failed to place order.");
     }
   }
-
+  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   if (cart.length === 0) {
     return <p>Your cart is empty.</p>;
   }
@@ -72,9 +78,13 @@ export default function CartPage() {
           />
         ))}
       </ul>
+      <div className="checkout-cnt">
+
+      <h3 className="total-price">Total: ₹{totalPrice}</h3>
       <button className="checkout-btn" onClick={checkout}>
         Checkout
       </button>
+      </div>
     </div>
   );
 }

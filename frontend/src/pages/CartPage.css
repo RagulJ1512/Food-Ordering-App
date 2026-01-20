@@ -24,3 +24,12 @@
 .checkout-btn:hover {
   background: #F79A19;
 }
+.total-price{
+margin-top: 20px;
+  
+ 
+}
+.checkout-cnt{
+  display: flex;
+  justify-content: space-between;
+}

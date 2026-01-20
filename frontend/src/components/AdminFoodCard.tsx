@@ -60,6 +60,7 @@ export default function AdminFoodCard({ food, onRefresh }: AdminFoodCardProps) {
             <select
               value={food.availability}
               onChange={(e) => handleAvailabilityChange(e.target.value)}
+              defaultValue={food.availability}
             >
               <option value="AVAILABLE">Available</option>
               <option value="UNAVAILABLE">Unavailable</option>

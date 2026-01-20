@@ -19,9 +19,9 @@ function Register() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
     try {
-        if(token){
+        if(role=="ADMIN"){
             await createAdmin(form);
             alert("Admin user created!");
             navigate("/register");
